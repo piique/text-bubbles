@@ -2,6 +2,11 @@
 
 Text Bubbles is a JavaScript library that creates an interactive and dynamic bubble text effect within an HTML canvas element.
 
+
+## Demo
+
+[Demo Link]([https://www.google.com](https://text-bubbles.netlify.app/))
+
 ## Features
 
 - Customizable text, font, size, and color
