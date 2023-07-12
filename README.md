@@ -5,7 +5,7 @@ Text Bubbles is a JavaScript library that creates an interactive and dynamic bub
 
 ## Demo
 
-[Demo Link]([https://www.google.com](https://text-bubbles.netlify.app/))
+[Demo Link](https://text-bubbles.netlify.app/)
 
 ## Features
 
