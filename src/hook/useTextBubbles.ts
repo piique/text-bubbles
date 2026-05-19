@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useCallback } from 'react';
 import type { TextBubblesConfig, TextBubblesState } from '../types';
 import {
   initTextBubbles,
@@ -16,41 +16,65 @@ export interface UseTextBubblesReturn {
   containerRef: React.RefObject<HTMLDivElement | null>;
 }
 
+function getRelativePosition(canvas: HTMLCanvasElement, clientX: number, clientY: number) {
+  const rect = canvas.getBoundingClientRect();
+  return {
+    x: clientX - rect.left,
+    y: clientY - rect.top,
+  };
+}
+
 export function useTextBubbles(options: UseTextBubblesOptions): UseTextBubblesReturn {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const stateRef = useRef<TextBubblesState | null>(null);
 
-  useEffect(() => {
+  const init = useCallback(() => {
     const canvas = canvasRef.current;
     const container = containerRef.current;
-    if (!canvas || !container) {
-      console.log('[TB][HOOK] mount skipped: missing ref', { canvas: !!canvas, container: !!container });
-      return;
-    }
+    if (!canvas || !container) return;
 
     if (stateRef.current) {
-      console.log('[TB][HOOK] existing state found, destroying first');
       destroyTextBubbles(stateRef.current);
-      stateRef.current = null;
     }
 
-    console.log('[TB][HOOK] INIT for text=', options.text);
     const state = initTextBubbles(canvas, container, options);
     stateRef.current = state;
     startAnimation(state);
+  }, [options]);
 
-    const onMouseMove = (event: MouseEvent) => {
+  useEffect(() => {
+    init();
+
+    const canvas = canvasRef.current;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
+
+    const onMove = (clientX: number, clientY: number) => {
       if (stateRef.current) {
-        const rect = canvas.getBoundingClientRect();
-        handleMouseMove(stateRef.current, event.clientX - rect.left, event.clientY - rect.top);
+        const pos = getRelativePosition(canvas, clientX, clientY);
+        handleMouseMove(stateRef.current, pos.x, pos.y);
       }
+    };
+
+    const onMouseMove = (event: MouseEvent) => onMove(event.clientX, event.clientY);
+
+    const onTouchMove = (event: TouchEvent) => {
+      event.preventDefault();
+      const touch = event.touches[0];
+      if (touch) onMove(touch.clientX, touch.clientY);
     };
 
     const onMouseLeave = () => {
       if (stateRef.current) {
         handleMouseLeave(stateRef.current);
         options.onMouseLeave?.();
+      }
+    };
+
+    const onTouchEnd = () => {
+      if (stateRef.current) {
+        handleMouseLeave(stateRef.current);
       }
     };
 
@@ -62,19 +86,22 @@ export function useTextBubbles(options: UseTextBubblesOptions): UseTextBubblesRe
 
     canvas.addEventListener('mousemove', onMouseMove);
     canvas.addEventListener('mouseleave', onMouseLeave);
+    canvas.addEventListener('touchmove', onTouchMove, { passive: false });
+    canvas.addEventListener('touchend', onTouchEnd);
     window.addEventListener('resize', onResize);
 
     return () => {
-      console.log('[TB][HOOK] CLEANUP for text=', options.text);
       canvas.removeEventListener('mousemove', onMouseMove);
       canvas.removeEventListener('mouseleave', onMouseLeave);
+      canvas.removeEventListener('touchmove', onTouchMove);
+      canvas.removeEventListener('touchend', onTouchEnd);
       window.removeEventListener('resize', onResize);
       if (stateRef.current) {
         destroyTextBubbles(stateRef.current);
         stateRef.current = null;
       }
     };
-  }, [options.text, options.radius, options.speed, options.color, options.spacing, options.maxWidth, options.fontSize, options.font, options.bubbleSpacing, options.bubbleSize, options.onMouseLeave]);
+  }, [init, options.onMouseLeave]);
 
   return { canvasRef, containerRef };
 }
