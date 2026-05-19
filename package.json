@@ -1,0 +1,58 @@
+{
+  "name": "@pedrovilaca/text-bubbles",
+  "version": "1.0.0",
+  "description": "Interactive text bubble effect for React - renders text as dynamic bubbles that react to mouse movement",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/text-bubbles.cjs",
+  "module": "./dist/text-bubbles.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/text-bubbles.js",
+      "require": "./dist/text-bubbles.cjs"
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.0",
+    "vite-plugin-dts": "^4.3.0",
+    "vite-plugin-css-injected-by-js": "^3.5.2"
+  },
+  "keywords": [
+    "react",
+    "text",
+    "bubbles",
+    "canvas",
+    "animation",
+    "interactive",
+    "particles"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pedrovilaca/text-bubbles"
+  }
+}
