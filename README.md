@@ -19,8 +19,7 @@ Svelte, plain HTML).
 
 **[Live playground](https://text-bubbles.pedrovilaca.dev)** · [npm](https://www.npmjs.com/package/text-bubbles) · [GitHub](https://github.com/piique/text-bubbles)
 
-> Screenshot / GIF placeholder: add `docs/demo.gif` (recorded from the playground) and reference
-> it here.
+![text-bubbles: the words "text bubbles" drawn as white and green particles, scattering around the pointer](https://raw.githubusercontent.com/piique/text-bubbles/v1.0.0/docs/demo.png)
 
 ## Install
 
