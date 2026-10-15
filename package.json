@@ -127,6 +127,11 @@
   "engines": {
     "node": ">=18"
   },
+  "pnpm": {
+    "overrides": {
+      "esbuild@>=0.27.3 <0.28.1": "0.28.2"
+    }
+  },
   "publishConfig": {
     "access": "public"
   },
