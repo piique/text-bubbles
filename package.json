@@ -1,58 +1,134 @@
 {
-  "name": "@pedrovilaca/text-bubbles",
+  "name": "text-bubbles",
   "version": "1.0.0",
-  "description": "Interactive text bubble effect for React - renders text as dynamic bubbles that react to mouse movement",
-  "type": "module",
-  "files": [
-    "dist"
-  ],
-  "main": "./dist/text-bubbles.cjs",
-  "module": "./dist/text-bubbles.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/text-bubbles.js",
-      "require": "./dist/text-bubbles.cjs"
-    },
-    "./style.css": "./dist/style.css"
-  },
-  "sideEffects": [
-    "*.css"
-  ],
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc --noEmit && vite build",
-    "preview": "vite preview",
-    "prepublishOnly": "npm run build",
-    "typecheck": "tsc --noEmit"
-  },
-  "peerDependencies": {
-    "react": ">=18.0.0",
-    "react-dom": ">=18.0.0"
-  },
-  "devDependencies": {
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
-    "@vitejs/plugin-react": "^4.3.4",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "typescript": "^5.6.3",
-    "vite": "^6.0.0",
-    "vite-plugin-dts": "^4.3.0",
-    "vite-plugin-css-injected-by-js": "^3.5.2"
-  },
+  "description": "Text drawn as interactive particles that scatter around the pointer. Tiny, dependency-free canvas core with React and custom element adapters.",
   "keywords": [
-    "react",
     "text",
+    "particles",
     "bubbles",
     "canvas",
     "animation",
     "interactive",
-    "particles"
+    "hero",
+    "typography",
+    "react",
+    "web-component",
+    "custom-element",
+    "astro"
   ],
-  "license": "MIT",
+  "homepage": "https://text-bubbles.pedrovilaca.dev",
+  "bugs": {
+    "url": "https://github.com/piique/text-bubbles/issues"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pedrovilaca/text-bubbles"
-  }
+    "url": "git+https://github.com/piique/text-bubbles.git"
+  },
+  "license": "MIT",
+  "author": "Pedro Vilaça",
+  "type": "module",
+  "sideEffects": [
+    "./dist/element.js",
+    "./dist/element.cjs"
+  ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./react": {
+      "import": {
+        "types": "./dist/react.d.ts",
+        "default": "./dist/react.js"
+      },
+      "require": {
+        "types": "./dist/react.d.cts",
+        "default": "./dist/react.cjs"
+      }
+    },
+    "./element": {
+      "import": {
+        "types": "./dist/element.d.ts",
+        "default": "./dist/element.js"
+      },
+      "require": {
+        "types": "./dist/element.d.cts",
+        "default": "./dist/element.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "react": [
+        "./dist/react.d.ts"
+      ],
+      "element": [
+        "./dist/element.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "vite",
+    "build:demo": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "size": "size-limit",
+    "prepublishOnly": "pnpm run typecheck && pnpm run test && pnpm run build && pnpm run size"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.15",
+    "@playwright/test": "1.64.1",
+    "@size-limit/preset-small-lib": "^14.2.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^5.1.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "size-limit": "^14.2.0",
+    "tsup": "^8.5.1",
+    "typescript": "~5.9.3",
+    "vite": "^7.3.0",
+    "vitest": "^4.1.0"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "packageManager": "pnpm@9.15.9"
 }
