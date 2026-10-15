@@ -1,0 +1,283 @@
+:root {
+  --bg: #0d1117;
+  --panel: #161b22;
+  --border: #30363d;
+  --fg: #e6edf3;
+  --muted: #8b949e;
+  --signal: #3ddc97;
+  --radius: 10px;
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --bg: #f6f8fa;
+  --panel: #ffffff;
+  --border: #d0d7de;
+  --fg: #16202b;
+  --muted: #57606a;
+  --signal: #0b7a4e;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font:
+    15px / 1.5 system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+}
+
+a {
+  color: var(--signal);
+}
+
+code,
+pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+}
+
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+header.top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  flex-wrap: wrap;
+}
+
+header.top h1 {
+  font-size: 18px;
+  margin: 0;
+  font-weight: 600;
+}
+
+header.top p {
+  margin: 0;
+  color: var(--muted);
+  flex: 1 1 260px;
+}
+
+.links {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--fg);
+  text-decoration: none;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  border-color: var(--signal);
+}
+
+.install {
+  font-family: ui-monospace, monospace;
+  font-size: 13px;
+}
+
+.stage {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+  overflow: hidden;
+  height: clamp(220px, 42vh, 420px);
+}
+
+/* The fallback <h1> sits under the canvas and fades out once particles are drawn. */
+.fallback {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  white-space: pre-line;
+  font-size: clamp(32px, 9vw, 96px);
+  line-height: 1;
+  transition: opacity 0.4s;
+}
+
+[data-ready="true"] > .fallback,
+[data-ready="true"] > .small-fallback {
+  opacity: 0;
+}
+
+.meta {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 13px;
+  padding: 8px 2px 0;
+  flex-wrap: wrap;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  padding-top: 16px;
+  padding-bottom: 48px;
+}
+
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    align-items: start;
+  }
+  .controls {
+    position: sticky;
+    top: 16px;
+  }
+}
+
+.controls {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+  padding: 12px 16px;
+  display: grid;
+  gap: 10px;
+}
+
+.controls h2,
+.heading {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin: 8px 0 0;
+}
+
+.field {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr) 44px;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.field output {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.field input[type="range"] {
+  width: 100%;
+  accent-color: var(--signal);
+}
+
+.field select,
+.field input[type="text"],
+.controls textarea {
+  width: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 6px;
+  font: inherit;
+  font-size: 13px;
+}
+
+.controls textarea {
+  resize: vertical;
+  min-height: 52px;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.tabs button[aria-selected="true"] {
+  border-color: var(--signal);
+  color: var(--signal);
+}
+
+pre.code {
+  margin: 8px 0 0;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+  overflow-x: auto;
+}
+
+.examples {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  margin-top: 8px;
+}
+
+.example {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+  padding: 12px;
+}
+
+.example h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.example .box {
+  position: relative;
+  height: 120px;
+}
+
+.example text-bubbles {
+  height: 120px;
+}
+
+.example .small-fallback {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  font-weight: 700;
+  transition: opacity 0.4s;
+}
+
+footer {
+  color: var(--muted);
+  font-size: 13px;
+  padding: 24px 0 48px;
+  border-top: 1px solid var(--border);
+}
