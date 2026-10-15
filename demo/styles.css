@@ -314,3 +314,50 @@ footer {
   padding: 24px 0 48px;
   border-top: 1px solid var(--border);
 }
+
+/* Workbench: the text and the options stay on screen together while you tweak. */
+.usage {
+  padding-bottom: 48px;
+}
+
+@media (min-width: 900px) {
+  .workbench,
+  .controls {
+    position: sticky;
+    top: 12px;
+  }
+  .controls {
+    max-height: calc(100dvh - 24px);
+    overflow-y: auto;
+  }
+}
+
+.controls {
+  gap: 8px;
+}
+
+.controls h2 {
+  margin-top: 4px;
+}
+
+/* Wide screens (e.g. Full HD): options in two columns, everything fits without scrolling. */
+@media (min-width: 1500px) {
+  .wrap {
+    max-width: 1500px;
+  }
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 620px;
+  }
+  .controls {
+    display: block;
+    columns: 2;
+    column-gap: 24px;
+  }
+  .controls > * {
+    break-inside: avoid;
+    margin-bottom: 8px;
+  }
+  .controls h2 {
+    break-after: avoid;
+  }
+}

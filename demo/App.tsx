@@ -156,8 +156,36 @@ function Range(props: {
   );
 }
 
-function ColorField(props: { label: string; value: string; onChange: (value: string) => void }) {
-  const { label, value, onChange } = props;
+/** Resolves any CSS color (including `var(--token)`) to #rrggbb for the color picker swatch. */
+function toHex(value: string): string {
+  if (/^#[0-9a-f]{6}$/i.test(value)) return value;
+  const probe = document.createElement("span");
+  probe.style.color = value.startsWith("--") ? `var(${value})` : value;
+  document.body.appendChild(probe);
+  const rgb = getComputedStyle(probe)
+    .color.match(/\d+(\.\d+)?/g)
+    ?.map(Number) ?? [136, 136, 136];
+  probe.remove();
+  return `#${rgb
+    .slice(0, 3)
+    .map((channel) => Math.round(channel).toString(16).padStart(2, "0"))
+    .join("")}`;
+}
+
+function ColorField(props: {
+  label: string;
+  value: string;
+  theme: string;
+  onChange: (value: string) => void;
+}) {
+  const { label, value, theme, onChange } = props;
+  const [swatch, setSwatch] = useState("#888888");
+  // Resolve after the frame so the new theme (set on <html> by the parent's effect) is applied.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: re-resolve var() colors when the theme changes
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setSwatch(toHex(value)));
+    return () => cancelAnimationFrame(frame);
+  }, [value, theme]);
   return (
     <label className="field">
       <span>{label}</span>
@@ -165,7 +193,7 @@ function ColorField(props: { label: string; value: string; onChange: (value: str
       <input
         type="color"
         aria-label={`${label} picker`}
-        value={value.startsWith("#") && value.length === 7 ? value : "#888888"}
+        value={swatch}
         onChange={(event) => onChange(event.target.value)}
         style={{ width: 44, height: 26, padding: 0, border: 0, background: "none" }}
       />
@@ -369,7 +397,7 @@ export function App() {
       </div>
 
       <main className="wrap layout">
-        <div>
+        <div className="workbench">
           <Stage key={run} options={options} onCount={setCount} />
           <div className="meta">
             <span>
@@ -399,59 +427,6 @@ export function App() {
             <pre className="code">
               <code>{code}</code>
             </pre>
-          </section>
-
-          <section>
-            <h2 className="heading">Three ways to use it</h2>
-            <p className="lead">
-              Same engine, three entry points. Pick the one that matches your stack; each example
-              below is live and its code is exactly what renders it.
-            </p>
-            <div className="examples">
-              <UsageExample
-                title="Core: createTextBubbles()"
-                when="Plain JavaScript or any framework. You own the lifecycle: create, update, destroy."
-                code={USAGE.core}
-                demo={<CoreExample />}
-              />
-              <UsageExample
-                title="React: <TextBubbles>"
-                when="React 18+ and Next.js (App Router: it is already a client component)."
-                code={USAGE.react}
-                demo={
-                  <TextBubbles
-                    text="react"
-                    font={FONTS[1].value}
-                    fontWeight={800}
-                    fontSize={72}
-                    color="var(--fg)"
-                    accentColor="var(--signal)"
-                    accentRatio={0.2}
-                    radius={40}
-                    style={{ height: 120 }}
-                  >
-                    <p className="small-fallback">react</p>
-                  </TextBubbles>
-                }
-              />
-              <UsageExample
-                title="Custom element: <text-bubbles>"
-                when="Astro, Vue, Svelte or plain HTML. No framework runtime: import once, use the tag."
-                code={USAGE.element}
-                demo={
-                  <text-bubbles
-                    font="Georgia, serif"
-                    font-size="72"
-                    color="var(--signal)"
-                    accent-color="var(--fg)"
-                    accent-ratio="0.3"
-                    radius="40"
-                  >
-                    <p className="small-fallback">element</p>
-                  </text-bubbles>
-                }
-              />
-            </div>
           </section>
         </div>
 
@@ -524,8 +499,9 @@ export function App() {
           />
 
           <h2>Colors</h2>
-          <ColorField label="color" value={options.color} onChange={set("color")} />
+          <ColorField theme={theme} label="color" value={options.color} onChange={set("color")} />
           <ColorField
+            theme={theme}
             label="accentColor"
             value={options.accentColor}
             onChange={set("accentColor")}
@@ -621,6 +597,59 @@ export function App() {
           </button>
         </aside>
       </main>
+
+      <section className="wrap usage">
+        <h2 className="heading">Three ways to use it</h2>
+        <p className="lead">
+          Same engine, three entry points. Pick the one that matches your stack; each example below
+          is live and its code is exactly what renders it.
+        </p>
+        <div className="examples">
+          <UsageExample
+            title="Core: createTextBubbles()"
+            when="Plain JavaScript or any framework. You own the lifecycle: create, update, destroy."
+            code={USAGE.core}
+            demo={<CoreExample />}
+          />
+          <UsageExample
+            title="React: <TextBubbles>"
+            when="React 18+ and Next.js (App Router: it is already a client component)."
+            code={USAGE.react}
+            demo={
+              <TextBubbles
+                text="react"
+                font={FONTS[1].value}
+                fontWeight={800}
+                fontSize={72}
+                color="var(--fg)"
+                accentColor="var(--signal)"
+                accentRatio={0.2}
+                radius={40}
+                style={{ height: 120 }}
+              >
+                <p className="small-fallback">react</p>
+              </TextBubbles>
+            }
+          />
+          <UsageExample
+            title="Custom element: <text-bubbles>"
+            when="Astro, Vue, Svelte or plain HTML. No framework runtime: import once, use the tag."
+            code={USAGE.element}
+            demo={
+              <text-bubbles
+                font="Georgia, serif"
+                font-size="72"
+                color="var(--signal)"
+                accent-color="var(--fg)"
+                accent-ratio="0.3"
+                radius="40"
+              >
+                <p className="small-fallback">element</p>
+              </text-bubbles>
+            }
+          />
+        </div>
+      </section>
 
       <footer className="wrap">
         MIT © Pedro Vilaça · <a href={REPO}>github.com/piique/text-bubbles</a> ·{" "}
