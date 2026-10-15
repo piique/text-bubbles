@@ -238,8 +238,41 @@ pre.code {
 .examples {
   display: grid;
   gap: 16px;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   margin-top: 8px;
+}
+
+.lead,
+.example .when {
+  margin: 4px 0 8px;
+  color: var(--muted, inherit);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.example {
+  display: grid;
+  gap: 8px 16px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.example-code {
+  position: relative;
+  min-width: 0;
+}
+
+.example-code pre.code {
+  margin: 0;
+  padding-top: 40px;
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.example-code .copy {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 3px 10px;
+  font-size: 12px;
 }
 
 .example {
