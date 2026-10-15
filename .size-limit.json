@@ -1,0 +1,31 @@
+[
+  {
+    "name": "core (text-bubbles)",
+    "path": "dist/index.js",
+    "import": "{ createTextBubbles }",
+    "limit": "4 KB",
+    "gzip": true
+  },
+  {
+    "name": "react adapter (text-bubbles/react), excluding react and core",
+    "path": "dist/react.js",
+    "import": "{ TextBubbles, useTextBubbles }",
+    "ignore": ["react", "react-dom", "text-bubbles"],
+    "limit": "1.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "react adapter + core, excluding react",
+    "path": "dist/react.js",
+    "import": "{ TextBubbles }",
+    "ignore": ["react", "react-dom"],
+    "limit": "5.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "custom element (text-bubbles/element), including core",
+    "path": "dist/element.js",
+    "limit": "4.5 KB",
+    "gzip": true
+  }
+]
