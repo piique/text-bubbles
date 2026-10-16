@@ -3,6 +3,19 @@
 All notable changes to this project are documented here. This project follows
 [Semantic Versioning](https://semver.org/).
 
+## 1.0.1 (2026-10-16)
+
+### Fixed
+
+- `resolveColor` no longer uses a polynomial-time (ReDoS-prone) regular expression for
+  `var(--token, fallback)`: the trailing-whitespace ambiguity was removed and the fallback is now
+  trimmed in code (CodeQL `js/polynomial-redos`). Behaviour is unchanged.
+
+### Changed
+
+- Dev tooling only: force `esbuild` 0.28.2 via a pnpm override (path-traversal advisory
+  GHSA-g7r4-m6w7-qqqr) and restrict the CI workflow permissions to `contents: read`.
+
 ## 1.0.0 (2026-10-15)
 
 First release on npm as `text-bubbles` (previously an unpublished React-only package).

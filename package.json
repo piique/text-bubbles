@@ -1,6 +1,6 @@
 {
   "name": "text-bubbles",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Text drawn as interactive particles that scatter around the pointer. Tiny, dependency-free canvas core with React and custom element adapters.",
   "keywords": [
     "text",
