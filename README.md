@@ -291,6 +291,12 @@ pnpm size           # size budgets (size-limit)
 pnpm build:demo     # playground -> demo-dist/
 ```
 
+## Releasing
+
+Published to npm from GitHub Actions via **Trusted Publishing** (OIDC, no tokens, with
+provenance). See [docs/releasing.md](./docs/releasing.md) for the one-time npm setup and the
+tag-based release steps.
+
 ## License
 
 [MIT](./LICENSE) © Pedro Vilaça
